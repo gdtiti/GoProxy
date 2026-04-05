@@ -9,7 +9,7 @@ GoProxy is an intelligent proxy pool system written in Go. It automatically fetc
 ## Build & Run
 
 ```bash
-# Run directly (requires Go 1.25, CGO enabled for sqlite3)
+# Run directly (requires Go 1.25; auto-selects SQLite driver based on CGO availability)
 go run .
 
 # Build and run
@@ -20,7 +20,7 @@ go build -o proxygo .
 docker compose up -d
 ```
 
-CGO is required (`CGO_ENABLED=1`) because of the `github.com/mattn/go-sqlite3` dependency.
+When `CGO_ENABLED=1`, the project uses `github.com/mattn/go-sqlite3`. When CGO is unavailable, it falls back to `modernc.org/sqlite` automatically.
 
 ## Testing
 

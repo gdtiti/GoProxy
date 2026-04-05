@@ -9,37 +9,17 @@ const dashboardHTML = `<!DOCTYPE html>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+` + themeBootstrapScript + `
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#0a0a0a;
-  --bg-elevated:#111;
-  --bg-card:#0d0d0d;
-  --fg:#00ff41;
-  --fg-dim:#00cc33;
-  --fg-text:#0f0;
-  --border:#1a3a1a;
-  --border-heavy:#00ff41;
-  --gray-1:#0d0d0d;
-  --gray-2:#151515;
-  --gray-3:#1a1a1a;
-  --gray-4:#2a4a2a;
-  --gray-5:#00aa2a;
-  --gray-6:#00dd38;
-  --green:#00ff41;
-  --yellow:#ffff00;
-  --orange:#ff8800;
-  --red:#ff0033;
-  --mono:JetBrains Mono,Share Tech Mono,monospace;
-  --sans:JetBrains Mono,monospace;
-}
-body{background:var(--bg);color:var(--fg);font-family:var(--mono);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;position:relative}
+` + sharedThemeCSS + `
+body{background:var(--bg);color:var(--fg-text);font-family:var(--mono);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;position:relative}
 
 /* CRT 扫描线效果 */
-body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:repeating-linear-gradient(0deg,rgba(0,255,65,0.03) 0px,transparent 1px,transparent 2px,rgba(0,255,65,0.03) 3px);pointer-events:none;z-index:9999}
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:repeating-linear-gradient(0deg,var(--line-overlay) 0px,transparent 1px,transparent 2px,var(--line-overlay) 3px);pointer-events:none;z-index:9999}
 
 /* 荧光光晕效果 */
-body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse at center,rgba(0,255,65,0.05) 0%,transparent 70%);pointer-events:none;z-index:9998}
+body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse at center,var(--hero-radial) 0%,transparent 72%);pointer-events:none;z-index:9998}
 
 .layout{max-width:1800px;margin:0 auto;padding:0 32px}
 
@@ -49,9 +29,9 @@ body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backgr
 .sidebar{position:sticky;top:32px}
 
 /* 控制面板 */
-.control-panel{background:var(--bg-card);border:1px solid var(--border-heavy);padding:20px;margin-bottom:20px;box-shadow:0 0 20px rgba(0,255,65,0.15)}
+.control-panel{background:var(--bg-card);border:1px solid var(--border-heavy);padding:20px;margin-bottom:20px;box-shadow:var(--shadow-soft)}
 .control-header{display:flex;align-items:center;justify-content:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
-.control-title{font-size:14px;font-weight:700;letter-spacing:0.12em;font-family:var(--mono);text-transform:uppercase;color:var(--fg);text-shadow:0 0 10px var(--fg)}
+.control-title{font-size:14px;font-weight:700;letter-spacing:0.12em;font-family:var(--mono);text-transform:uppercase;color:var(--fg);text-shadow:var(--text-glow)}
 .control-ops{display:flex;flex-direction:row;gap:8px}
 .ctrl-btn-primary{width:100%;padding:10px;font-size:10px;font-weight:600;cursor:pointer;border:1px solid var(--border-heavy);background:var(--bg-card);color:var(--fg);font-family:var(--mono);text-transform:uppercase;letter-spacing:0.08em;transition:all 0.2s}
 .ctrl-btn-primary:hover{background:var(--border);box-shadow:0 0 15px var(--border-heavy);color:var(--fg);text-shadow:0 0 5px var(--fg)}
@@ -60,10 +40,10 @@ body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backgr
 
 /* 代理列表区域 */
 .proxy-section{display:block}
-.proxy-header{position:sticky;top:0;z-index:100;background:var(--bg);padding:20px 0 16px;border-bottom:1px solid var(--border-heavy);display:flex;align-items:center;justify-content:space-between;gap:24px;backdrop-filter:blur(8px);box-shadow:0 2px 0 0 rgba(0,255,65,0.2)}
+.proxy-header{position:sticky;top:0;z-index:100;background:var(--bg);padding:20px 0 16px;border-bottom:1px solid var(--border-heavy);display:flex;align-items:center;justify-content:space-between;gap:24px;backdrop-filter:blur(8px);box-shadow:0 2px 0 0 var(--surface-glow)}
 .proxy-logo-area{display:flex;align-items:baseline;gap:12px;flex-shrink:0}
-.proxy-logo{font-size:28px;font-weight:900;letter-spacing:0.2em;font-family:var(--mono);text-transform:uppercase;color:var(--fg);text-shadow:0 0 15px var(--fg),0 0 30px var(--fg);animation:glow 2s ease-in-out infinite alternate}
-@keyframes glow{0%{text-shadow:0 0 15px var(--fg),0 0 30px var(--fg)}100%{text-shadow:0 0 20px var(--fg),0 0 40px var(--fg),0 0 60px var(--fg)}}
+.proxy-logo{font-size:28px;font-weight:900;letter-spacing:0.2em;font-family:var(--mono);text-transform:uppercase;color:var(--fg);text-shadow:var(--logo-glow)}
+@keyframes glow{0%{filter:brightness(1)}100%{filter:brightness(1.05)}}
 .user-badge{font-size:10px;color:var(--fg-dim);font-family:var(--mono);letter-spacing:0.08em;opacity:0.6}
 .proxy-content{}
 .header-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}
@@ -78,15 +58,15 @@ body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backgr
 }
 
 /* Health Grid - 侧边栏紧凑布局 */
-.health-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--bg);border:1px solid var(--border);margin-bottom:10px;box-shadow:0 0 20px rgba(0,255,65,0.1)}
+.health-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--bg);border:1px solid var(--border);margin-bottom:10px;box-shadow:var(--shadow-soft)}
 .health-card{background:var(--bg-card);padding:8px 10px;position:relative;border:1px solid var(--border)}
 .health-label{font-size:8px;text-transform:uppercase;letter-spacing:0.15em;color:var(--fg-dim);margin-bottom:4px;font-weight:600;font-family:var(--mono)}
-.health-value{font-size:18px;font-weight:700;font-family:var(--mono);line-height:1;letter-spacing:0.05em;color:var(--fg);text-shadow:0 0 10px var(--fg)}
+.health-value{font-size:18px;font-weight:700;font-family:var(--mono);line-height:1;letter-spacing:0.05em;color:var(--fg);text-shadow:var(--text-glow)}
 .health-status{position:absolute;top:16px;right:16px;width:8px;height:8px;border-radius:50%}
 .health-status.healthy{background:var(--green);box-shadow:0 0 8px var(--green)}
 .health-status.warning{background:var(--orange);box-shadow:0 0 8px var(--orange)}
 .health-status.critical{background:var(--red);box-shadow:0 0 8px var(--red)}
-.health-status.emergency{background:var(--red);box-shadow:0 0 15px var(--red),0 0 0 3px rgba(255,0,51,0.3);animation:pulse 1s infinite}
+.health-status.emergency{background:var(--red);box-shadow:0 0 15px var(--red),0 0 0 3px var(--surface-glow);animation:pulse 1s infinite}
 .health-meta{font-size:8px;color:var(--gray-5);margin-top:3px;font-family:var(--mono)}
 
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
@@ -96,15 +76,15 @@ body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backgr
 .tab:hover{background:var(--border);color:var(--fg);box-shadow:0 0 8px var(--border)}
 
 /* 筛选下拉框 */
-.filter-select{padding:8px 16px;min-height:36px;font-size:10px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--bg-card);color:var(--fg-dim);font-family:var(--mono);text-transform:uppercase;letter-spacing:0.05em;transition:all 0.2s;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2300ff41' d='M6 9L1 4h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;padding-right:32px}
+.filter-select{padding:8px 16px;min-height:36px;font-size:10px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--bg-card);color:var(--fg-dim);font-family:var(--mono);text-transform:uppercase;letter-spacing:0.05em;transition:all 0.2s;outline:none;appearance:auto;padding-right:16px}
 .filter-select:hover{background-color:var(--border);color:var(--fg);box-shadow:0 0 8px var(--border)}
 .filter-select option{background:var(--bg-card);color:var(--fg-dim)}
 
 /* Quality Bar - 侧边栏紧凑布局 */
-.quality-bar{background:var(--bg-card);border:1px solid var(--border);padding:16px;margin-bottom:16px;box-shadow:0 0 15px rgba(0,255,65,0.08)}
+.quality-bar{background:var(--bg-card);border:1px solid var(--border);padding:16px;margin-bottom:16px;box-shadow:var(--shadow-soft)}
 .quality-bar-title{font-size:8px;text-transform:uppercase;letter-spacing:0.15em;color:var(--fg-dim);margin-bottom:10px;font-weight:600}
-.quality-visual{display:flex;height:20px;border:1px solid var(--border);overflow:hidden;box-shadow:inset 0 0 10px rgba(0,255,65,0.1)}
-.quality-segment{display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-family:var(--mono);color:#000;transition:width 0.3s;text-shadow:none}
+.quality-visual{display:flex;height:20px;border:1px solid var(--border);overflow:hidden;box-shadow:inset 0 0 10px var(--surface-glow)}
+.quality-segment{display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-family:var(--mono);color:var(--on-accent);transition:width 0.3s;text-shadow:none}
 .quality-s{background:var(--green);box-shadow:0 0 10px var(--green)}
 .quality-a{background:var(--yellow);box-shadow:0 0 10px var(--yellow)}
 .quality-b{background:var(--orange);box-shadow:0 0 10px var(--orange)}
@@ -115,17 +95,17 @@ body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backgr
 
 /* 操作按钮样式 */
 .btn-danger{border:1px solid var(--red);color:var(--red);padding:5px 10px;font-size:9px;text-transform:uppercase;letter-spacing:0.08em;background:var(--bg-card);cursor:pointer;transition:all 0.2s}
-.btn-danger:hover{background:var(--red);color:#000;box-shadow:0 0 10px var(--red)}
+.btn-danger:hover{background:var(--red);color:var(--on-accent);box-shadow:0 0 10px var(--red)}
 .btn-action{border:1px solid var(--border);color:var(--fg-dim);padding:5px 10px;font-size:9px;text-transform:uppercase;letter-spacing:0.08em;background:var(--bg-card);margin-left:6px;cursor:pointer;transition:all 0.2s}
 .btn-action:hover{background:var(--border);color:var(--fg);box-shadow:0 0 8px var(--border)}
 
 /* Table */
 table{width:100%;border-collapse:collapse;font-size:11px;font-family:var(--mono);border:1px solid var(--border);background:var(--bg-card)}
-thead{position:sticky;top:78px;z-index:50;border-bottom:1px solid var(--border-heavy);background:var(--bg-elevated);box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+thead{position:sticky;top:78px;z-index:50;border-bottom:1px solid var(--border-heavy);background:var(--bg-elevated);box-shadow:var(--shadow-soft)}
 th{padding:10px 12px;text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:var(--fg-dim);font-weight:600}
 td{padding:12px;border-bottom:1px solid var(--border);color:var(--fg-dim)}
 tr:last-child td{border-bottom:none}
-tr:hover{background:var(--gray-2);box-shadow:inset 0 0 20px rgba(0,255,65,0.05)}
+tr:hover{background:var(--gray-2);box-shadow:inset 0 0 20px var(--table-hover)}
 .cell-mono{font-family:var(--mono);font-size:10px}
 .cell-grade{font-weight:700;font-size:14px}
 .cell-clickable{cursor:pointer;transition:all 0.2s}
@@ -137,34 +117,34 @@ tr:hover{background:var(--gray-2);box-shadow:inset 0 0 20px rgba(0,255,65,0.05)}
 .grade-c{color:var(--red);text-shadow:0 0 8px var(--red)}
 .badge{display:inline-block;padding:3px 8px;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;border:1px solid;font-family:var(--mono)}
 .badge-http{border-color:var(--fg-dim);color:var(--fg-dim);background:transparent}
-.badge-socks5{background:var(--fg-dim);color:#000;border-color:var(--fg-dim);box-shadow:0 0 6px var(--fg-dim)}
+.badge-socks5{background:var(--fg-dim);color:var(--on-accent);border-color:var(--fg-dim);box-shadow:0 0 6px var(--surface-glow)}
 .latency{font-weight:600}
 .latency-excellent{color:var(--green)}
-.latency-good{color:#333}
-.latency-fair{color:#666}
+.latency-good{color:var(--latency-good)}
+.latency-fair{color:var(--latency-fair)}
 .latency-poor{color:var(--red)}
 
 /* Modal */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);backdrop-filter:blur(10px);z-index:100;align-items:center;justify-content:center}
+.modal-overlay{display:none;position:fixed;inset:0;background:var(--overlay);backdrop-filter:blur(10px);z-index:100;align-items:center;justify-content:center}
 .modal-overlay.show{display:flex}
-.modal{background:var(--bg-elevated);border:1px solid var(--border-heavy);padding:40px;width:700px;box-shadow:0 0 40px rgba(0,255,65,0.3);max-height:90vh;overflow-y:auto}
-.modal-title{font-size:20px;font-weight:700;margin-bottom:28px;letter-spacing:0.08em;text-transform:uppercase;color:var(--fg);text-shadow:0 0 10px var(--fg)}
+.modal{background:var(--bg-elevated);border:1px solid var(--border-heavy);padding:40px;width:700px;box-shadow:var(--shadow-strong);max-height:90vh;overflow-y:auto}
+.modal-title{font-size:20px;font-weight:700;margin-bottom:28px;letter-spacing:0.08em;text-transform:uppercase;color:var(--fg);text-shadow:var(--text-glow)}
 .form-section{margin-bottom:28px}
 .form-section-title{font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:var(--fg-dim);margin-bottom:12px;font-weight:600;padding-bottom:8px;border-bottom:1px solid var(--border)}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .form-group{display:flex;flex-direction:column}
 .form-group label{font-size:9px;text-transform:uppercase;letter-spacing:0.08em;color:var(--fg-dim);margin-bottom:6px;font-weight:600}
 .form-group input{padding:10px;background:var(--bg-card);border:1px solid var(--border);font-size:12px;font-family:var(--mono);color:var(--fg);outline:none;transition:all 0.2s}
-.form-group input:focus{border-color:var(--border-heavy);background:var(--bg-elevated);box-shadow:0 0 10px var(--border-heavy)}
+.form-group input:focus{border-color:var(--border-heavy);background:var(--bg-elevated);box-shadow:var(--input-ring)}
 .form-help{font-size:9px;color:var(--gray-5);margin-top:4px;font-family:var(--mono)}
 .modal-actions{display:flex;gap:12px;margin-top:28px;padding-top:28px;border-top:1px solid var(--border)}
 .modal-actions .btn{flex:1;padding:12px 24px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border-heavy);background:var(--bg-card);color:var(--fg);font-family:var(--mono);text-transform:uppercase;letter-spacing:0.08em;transition:all 0.2s}
-.modal-actions .btn:hover{background:var(--border);box-shadow:0 0 15px var(--border-heavy);color:var(--fg);text-shadow:0 0 5px var(--fg)}
+.modal-actions .btn:hover{background:var(--border);box-shadow:var(--shadow-soft);color:var(--fg);text-shadow:var(--text-glow)}
 .modal-actions .btn-secondary{border:1px solid var(--border);background:var(--bg-card);color:var(--fg-dim)}
-.modal-actions .btn-secondary:hover{background:var(--gray-2);color:var(--fg);box-shadow:0 0 10px var(--border)}
+.modal-actions .btn-secondary:hover{background:var(--gray-2);color:var(--fg);box-shadow:var(--shadow-soft)}
 
 /* Log - 适配侧边栏布局 */
-.log-box{padding:12px;background:var(--bg);border:1px solid var(--border);font-family:var(--mono);font-size:10px;color:var(--fg-dim);height:350px;overflow-y:auto;line-height:1.8;box-shadow:inset 0 0 20px rgba(0,255,65,0.05)}
+.log-box{padding:12px;background:var(--bg);border:1px solid var(--border);font-family:var(--mono);font-size:10px;color:var(--fg-dim);height:350px;overflow-y:auto;line-height:1.8;box-shadow:inset 0 0 20px var(--table-hover)}
 .log-box::-webkit-scrollbar{width:4px}
 .log-box::-webkit-scrollbar-track{background:var(--bg)}
 .log-box::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
@@ -175,7 +155,7 @@ tr:hover{background:var(--gray-2);box-shadow:inset 0 0 20px rgba(0,255,65,0.05)}
 
 /* 侧边栏样式 */
 .sidebar>*:not(:last-child){margin-bottom:16px}
-.sidebar .section{margin-bottom:0;border:1px solid var(--border);background:var(--bg-card);padding:16px;box-shadow:0 0 15px rgba(0,255,65,0.1)}
+.sidebar .section{margin-bottom:0;border:1px solid var(--border);background:var(--bg-card);padding:16px;box-shadow:var(--shadow-soft)}
 .sidebar .section-header{padding-bottom:10px;margin-bottom:12px;border-bottom:1px solid var(--border)}
 .sidebar .section-title{font-size:12px;letter-spacing:0.12em}
 
@@ -196,7 +176,7 @@ tr:hover{background:var(--gray-2);box-shadow:inset 0 0 20px rgba(0,255,65,0.05)}
 .admin-only{display:none}
 
 /* Toast 提示 */
-.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--fg);color:#000;padding:12px 24px;font-size:11px;font-weight:600;font-family:var(--mono);opacity:0;transition:all 0.3s;z-index:1000;pointer-events:none;box-shadow:0 0 20px var(--fg);text-transform:uppercase;letter-spacing:0.05em}
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--border-heavy);color:var(--on-accent);padding:12px 24px;font-size:11px;font-weight:600;font-family:var(--mono);opacity:0;transition:all 0.3s;z-index:1000;pointer-events:none;box-shadow:var(--shadow-medium);text-transform:uppercase;letter-spacing:0.05em}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 </style>
 </head>
@@ -219,6 +199,7 @@ tr:hover{background:var(--gray-2);box-shadow:inset 0 0 20px rgba(0,255,65,0.05)}
             <select class="filter-select" id="country-filter" onchange="setCountryFilter(this.value)">
               <option value="" id="country-filter-label">出口国家</option>
             </select>
+            <select class="filter-select" id="theme-select" onchange="applyTheme(this.value)"></select>
             <button class="tab" onclick="toggleLang()" id="lang-btn">[ EN ]</button>
             <a href="https://github.com/isboyjc/ProxyGo" target="_blank" class="tab" title="GitHub">
               <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" style="vertical-align: middle;">
@@ -318,10 +299,10 @@ tr:hover{background:var(--gray-2);box-shadow:inset 0 0 20px rgba(0,255,65,0.05)}
           <div class="quality-segment quality-c" style="width:0%"></div>
         </div>
         <div class="quality-legend">
-          <div class="quality-legend-item"><span class="quality-legend-dot" style="background:#22c55e"></span><span data-i18n="quality.grade_s">S级</span> (<span id="grade-s-count">0</span>)</div>
-          <div class="quality-legend-item"><span class="quality-legend-dot" style="background:#eab308"></span><span data-i18n="quality.grade_a">A级</span> (<span id="grade-a-count">0</span>)</div>
-          <div class="quality-legend-item"><span class="quality-legend-dot" style="background:#f97316"></span><span data-i18n="quality.grade_b">B级</span> (<span id="grade-b-count">0</span>)</div>
-          <div class="quality-legend-item"><span class="quality-legend-dot" style="background:#ef4444"></span><span data-i18n="quality.grade_c">C级</span> (<span id="grade-c-count">0</span>)</div>
+          <div class="quality-legend-item"><span class="quality-legend-dot" style="background:var(--green)"></span><span data-i18n="quality.grade_s">S级</span> (<span id="grade-s-count">0</span>)</div>
+          <div class="quality-legend-item"><span class="quality-legend-dot" style="background:var(--yellow)"></span><span data-i18n="quality.grade_a">A级</span> (<span id="grade-a-count">0</span>)</div>
+          <div class="quality-legend-item"><span class="quality-legend-dot" style="background:var(--orange)"></span><span data-i18n="quality.grade_b">B级</span> (<span id="grade-b-count">0</span>)</div>
+          <div class="quality-legend-item"><span class="quality-legend-dot" style="background:var(--red)"></span><span data-i18n="quality.grade_c">C级</span> (<span id="grade-c-count">0</span>)</div>
         </div>
       </div>
 
@@ -866,6 +847,8 @@ const i18n = {
   }
 };
 
+` + sharedThemeManagerJS + `
+
 let currentLang = 'zh';
 let logCountdown = 5;
 
@@ -896,6 +879,7 @@ function updateI18n() {
   if (protocolLabel) protocolLabel.textContent = t('proxy.filter_protocol');
   const countryLabel = document.getElementById('country-filter-label');
   if (countryLabel) countryLabel.textContent = t('proxy.filter_country');
+  syncThemeSelect(currentLang);
 }
 
 function toggleLang() {
@@ -912,11 +896,12 @@ function toggleLang() {
 }
 
 // 页面加载时恢复语言设置
+loadThemePreference();
 const savedLang = localStorage.getItem('lang');
 if (savedLang) {
   currentLang = savedLang;
-  updateI18n();
 }
+updateI18n();
 
 let currentProtocol = '';
 let currentCountry = '';
@@ -1132,7 +1117,7 @@ function renderProxies(proxies) {
       html += '<td><span class="badge badge-' + p.protocol + '">' + p.protocol.toUpperCase() + '</span>';
       if (p.source === 'custom') {
         const subName = subNameMap[p.subscription_id] || t('sub.add_title');
-        html += ' <span style="display:inline-block;background:var(--yellow);color:#000;font-size:8px;font-weight:700;padding:1px 4px;margin-left:4px;letter-spacing:0.05em">' + subName + '</span>';
+        html += ' <span style="display:inline-block;background:var(--yellow);color:var(--on-accent);font-size:8px;font-weight:700;padding:1px 4px;margin-left:4px;letter-spacing:0.05em">' + subName + '</span>';
       }
       html += '</td>';
       html += '<td class="cell-mono cell-clickable" onclick="copyToClipboard(\'' + p.address + '\')" title="Copy">' + p.address + '</td>';
@@ -1322,7 +1307,7 @@ async function loadSubscriptions() {
     const disabled = s.disabled_count || 0;
     const total = active + disabled;
     const statsText = total + ' ' + t('sub.nodes') + ' · ' + active + ' ' + t('sub.available') + (disabled > 0 ? ' · ' + disabled + ' ' + t('sub.disabled_label') : '');
-    const badge = s.contributed ? '<span style="display:inline-block;background:var(--orange);color:#000;font-size:7px;font-weight:700;padding:0 3px;margin-left:4px;vertical-align:middle">' + t('sub.contributed') + '</span>' : '';
+    const badge = s.contributed ? '<span style="display:inline-block;background:var(--orange);color:var(--on-accent);font-size:7px;font-weight:700;padding:0 3px;margin-left:4px;vertical-align:middle">' + t('sub.contributed') + '</span>' : '';
     return '<div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border)">' +
       '<div style="flex:1;min-width:0">' +
         '<span style="color:' + statusColor + '">' + statusIcon + '</span> ' +

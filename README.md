@@ -77,7 +77,7 @@ docker compose up -d
 ### 本地运行
 
 ```bash
-# 需要 Go 1.25 + CGO（依赖 go-sqlite3）
+# 需要 Go 1.25；有 CGO 时使用 `go-sqlite3`，无 CGO 时自动切换到 `modernc.org/sqlite`
 go run .
 
 # 或编译后运行
