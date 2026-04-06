@@ -49,3 +49,5 @@ docker-compose.dokploy.yml
 
 
 tmp/
+.ace-tool/
+.devone/worktree/
